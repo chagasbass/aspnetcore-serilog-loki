@@ -1,0 +1,16 @@
+Logs Com LOKI 
+
+Tentar a s eparação de logs por fluxo de usuário e fluxo de aplicação
+
+Loki pode rodar tanto de modo monolitico como em microserviços
+
+Grafana loki atende tanto em cenários de alta e baixa escala
+Grafana loki só indexa alguns campos do seu log por isso é mais performático 
+
+executar o docker compose 
+
+docker-compose up -d
+
+acessar o grafana http://localhost:3000/
+
+logar com user e senha admin

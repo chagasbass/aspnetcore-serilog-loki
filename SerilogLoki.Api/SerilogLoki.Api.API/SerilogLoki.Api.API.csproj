@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>f0c9a99d-8b69-44de-ae38-44f44452a13e</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>.</DockerfileContext>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--<PackageReference Include="Asp.Versioning.Http" Version="6.0.0-preview.3" />-->
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
+    <PackageReference Include="Serilog" Version="2.11.0" />
+	<PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ApplicationServices\Services\" />
+    <Folder Include="ApplicationServices\Dtos\" />
+    <Folder Include="ApplicationServices\Contracts\" />
+    <Folder Include="Domain\Repositories\" />
+    <Folder Include="Domain\Enums\" />
+    <Folder Include="Domain\Diagrams\" />
+    <Folder Include="Domain\ValueObjects\" />
+    <Folder Include="Domain\Entities\" />
+    <Folder Include="Infrastructure.Data\Repositories\" />
+    <Folder Include="Infrastructure.Data\QueryHelpers\" />
+    <Folder Include="Infrastructure.Data\DataContexts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RestoqueMinimal.Extensions\RestoqueMinimal.Extensions.csproj" />
+  </ItemGroup>
+
+</Project>
