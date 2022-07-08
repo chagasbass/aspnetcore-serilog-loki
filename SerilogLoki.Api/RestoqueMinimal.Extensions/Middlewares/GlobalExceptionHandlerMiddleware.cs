@@ -6,6 +6,7 @@ using RestoqueMinimal.Extensions.Factories;
 using RestoqueMinimal.Extensions.Shared.Configurations;
 using RestoqueMinimal.Extensions.Shared.Enums;
 using RestoqueMinimal.Extensions.Shared.Logs.Services;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace RestoqueMinimal.Extensions.Middlewares
@@ -14,6 +15,7 @@ namespace RestoqueMinimal.Extensions.Middlewares
     {
         private readonly ProblemDetailConfigurationOptions _problemOptions;
         private readonly ILogServices _logServices;
+        private readonly ActivitySource _activitySource;
 
         public GlobalExceptionHandlerMiddleware(IOptions<ProblemDetailConfigurationOptions> problemOptions,
                                                 ILogServices logServices)
@@ -57,7 +59,9 @@ namespace RestoqueMinimal.Extensions.Middlewares
             context.Response.StatusCode = statusCode;
             context.Response.ContentType = dataType;
 
-            await context.Response.WriteAsync(JsonSerializer.Serialize(commandResult, JsonOptionsFactory.GetSerializerOptions()));
+            var serializedCommandResult = JsonSerializer.Serialize(commandResult, JsonOptionsFactory.GetSerializerOptions());
+
+            await context.Response.WriteAsync(serializedCommandResult);
         }
 
         private ProblemDetails ConfigurarDetalhesDoProblema(int statusCode, Exception exception, HttpContext context)

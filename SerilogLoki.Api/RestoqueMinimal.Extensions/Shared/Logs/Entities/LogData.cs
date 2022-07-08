@@ -15,6 +15,7 @@ namespace RestoqueMinimal.Extensions.Shared.Logs
         public int ResponseStatusCode { get; private set; }
         public string? TraceId { get; private set; }
         public Exception Exception { get; private set; }
+        public string? Message { get; private set; }
 
         public LogData()
         {
@@ -27,9 +28,15 @@ namespace RestoqueMinimal.Extensions.Shared.Logs
             return this;
         }
 
-        public LogData AddRequestType(string metodo)
+        public LogData AddRequestType(string? metodo)
         {
             RequestMethod = metodo;
+            return this;
+        }
+
+        public LogData AddMessage(string? message)
+        {
+            Message = message;
             return this;
         }
 

@@ -1,6 +1,7 @@
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Options;
 using NCrontab;
+using Worker.Serilog.Loki.Domain.Services;
 using Worker.Serilog.Loki.Shared.Configurations;
 using Worker.Serilog.Loki.Shared.Extensions;
 using Worker.Serilog.Loki.Shared.Logs.Services;
@@ -15,16 +16,18 @@ namespace Worker.Serilog.Loki.Worker
         private readonly WorkerConfigurationOptions _workerConfigOptions;
         private readonly ILogServices _logService;
         private readonly TelemetryClient _telemetryClient;
+        private readonly IWorkerService _workerService;
 
         public RestoqueWorker(IOptionsMonitor<WorkerConfigurationOptions> workerOptions,
                                  IOptionsMonitor<BaseConfigurationOptions> baseOptions,
                                  ILogServices logService,
-                                 TelemetryClient telemetryClient)
+                                 TelemetryClient telemetryClient, IWorkerService workerService)
         {
             _baseConfigurationOptions = baseOptions.CurrentValue;
             _workerConfigOptions = workerOptions.CurrentValue;
             _logService = logService;
             _telemetryClient = telemetryClient;
+            _workerService = workerService;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -56,7 +59,7 @@ namespace Worker.Serilog.Loki.Worker
         {
             _logService.WriteMessage("Iniciando Processamento...");
 
-            //TODO:Inserir chamada da sua rotina.
+            await _workerService.CallLokiApiAsync();
 
             _logService.WriteLog(_baseConfigurationOptions.NomeProjeto);
             _logService.WriteMessage("Fim do ciclo de processamento...");

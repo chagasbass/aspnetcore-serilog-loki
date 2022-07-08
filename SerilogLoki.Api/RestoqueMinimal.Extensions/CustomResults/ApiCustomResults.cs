@@ -14,6 +14,9 @@ namespace RestoqueMinimal.Extensions.CustomResults
         private readonly ILogServices _logServices;
         private readonly INotificationServices _notificationServices;
 
+        bool hasWritedTraceData = false;
+        JsonSerializerOptions options = JsonOptionsFactory.GetSerializerOptions();
+
         public ApiCustomResults(ILogServices logServices,
                                 INotificationServices notificationServices)
         {
@@ -66,6 +69,7 @@ namespace RestoqueMinimal.Extensions.CustomResults
             }
         }
 
+
         public void GenerateLogResponse(CommandResult commandResult, int statusCode)
         {
             _logServices.LogData.AddResponseStatusCode(statusCode)
@@ -76,13 +80,10 @@ namespace RestoqueMinimal.Extensions.CustomResults
 
         public ICommandResult CreateErrorResponse(int statusCode, CommandResult commandResult)
         {
-            var options = JsonOptionsFactory.GetSerializerOptions();
+            hasWritedTraceData = true;
 
             var notifications = _notificationServices.GetNotifications();
 
-            var jsonNotifications = JsonSerializer.Serialize(notifications, options);
-
-            var detail = jsonNotifications;
             var defaultTitle = "Um erro ocorreu ao processar o request.";
 
             var problemDetails = new MinimalApiProblemDetail(notifications.ToList(), commandResult.Message, statusCode, defaultTitle);
@@ -91,6 +92,5 @@ namespace RestoqueMinimal.Extensions.CustomResults
 
             return commandResult;
         }
-
     }
 }

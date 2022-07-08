@@ -19,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
-Log.Logger = SerilogLokiIntegrationExtensions.ConfigureStructuralLogWithSerilogAndLoki(configuration,builder);
+Log.Logger = SerilogLokiIntegrationExtensions.ConfigureStructuralLogWithSerilogAndLoki(configuration, builder);
 builder.Logging.AddSerilog(Log.Logger);
 
 try
@@ -86,8 +86,11 @@ finally
 void MapApiActions(WebApplication app)
 {
     //endpoint get de exemplo retornando status BadRequest no problemDetail dentro do CommandResult
-    app.MapGet("/log-information", (IApiCustomResults customResults, INotificationServices notificationServices) =>
+    app.MapGet("/log-information", (IApiCustomResults customResults, INotificationServices notificationServices, ILogServices logServices) =>
     {
+        //add o nome do fluxo
+        logServices.LogData.AddMessage("Fluxo de long-information");
+
         var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool" };
 
         var forecast = Enumerable.Range(1, 5).Select(index =>
@@ -114,8 +117,11 @@ void MapApiActions(WebApplication app)
       .WithMetadata("teste metadata");
 
     //endpoint get de exemplo retornando status BadRequest no problemDetail dentro do CommandResult
-    app.MapGet("/log-error", (IApiCustomResults customResults, INotificationServices notificationServices) =>
+    app.MapGet("/log-error", (IApiCustomResults customResults, INotificationServices notificationServices, ILogServices logServices) =>
     {
+        //add o nome do fluxo
+        logServices.LogData.AddMessage("Fluxo de long-error");
+
         var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool" };
 
         var forecast = Enumerable.Range(1, 5).Select(index =>

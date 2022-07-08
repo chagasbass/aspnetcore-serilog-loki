@@ -11,6 +11,7 @@ namespace Worker.Serilog.Loki.Extensions.Logs
         public static Logger ConfigureStructuralLogWithSerilogAndLoki()
         {
             var lokiUrl = @"http://localhost:3100";
+            //https://localhost:7150/
 
             return new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)

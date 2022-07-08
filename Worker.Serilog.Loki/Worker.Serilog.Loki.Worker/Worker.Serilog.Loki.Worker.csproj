@@ -17,6 +17,7 @@
 
 
 	<ItemGroup>
+		<ProjectReference Include="..\Worker.Serilog.Loki.Domain\Worker.Serilog.Loki.Domain.csproj" />
 		<ProjectReference Include="..\Worker.Serilog.Loki.Shared\Worker.Serilog.Loki.Shared.csproj" />
 		<ProjectReference Include="..\Worker.Serilog.Loki.Extensions\Worker.Serilog.Loki.Extensions.csproj" />
 	</ItemGroup>
